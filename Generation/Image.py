@@ -78,8 +78,8 @@ def get_random_images(num_images, image_sizes, science_folder="Generation/scienc
     return image_paths
 
 # Example usage
-science_folder = "Generation/science_images"
-non_science_folder = "Generation/non_science_images"
-image_sizes = [[300, 300], [400, 400], [500, 500], [600, 600]]
-image_paths = get_random_images(5, image_sizes, science_folder, non_science_folder)
-print(f"Generated images: {image_paths}")
+#science_folder = "Generation/science_images"
+#non_science_folder = "Generation/non_science_images"
+#image_sizes = [[300, 300], [400, 400], [500, 500], [600, 600]]
+#image_paths = get_random_images(5, image_sizes, science_folder, non_science_folder)
+#print(f"Generated images: {image_paths}")

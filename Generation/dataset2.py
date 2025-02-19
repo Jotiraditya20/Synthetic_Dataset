@@ -71,8 +71,8 @@ def generate_research_page(page_id):
             y_position = MARGIN + row * row_height + random.randint(-20, 20)
             
             element_type = random.choices([0, 1, 2], weights=[30, 50, 20])[0]
-            width = random.randint(200, col_width - 20)
-            height = random.randint(200, row_height - 20)
+            width = random.randint(300, col_width - 20)
+            height = random.randint(300, row_height - 20)
 
             try:
                 if element_type == 0:
