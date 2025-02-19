@@ -1,0 +1,34 @@
+{
+//Graph.py
+    // Nessecary to pass call_count and index
+    //Text at the bottom
+    "fig_id" : "Figure {call_count}_{index}",
+    //Text position
+    "x_pos" : 0.5,
+    "y_pos" : -0.2,
+    "font_size" : 12,
+//Text.py
+    //Fonts
+    "font_paths" : ["times.ttf","arial.ttf","helvetica.ttf", "georgia.ttf", "calibri.ttf", "verdana.ttf", "tahoma.ttf", "garamond.ttf"],
+    "min_font_size" : 14,
+    "max_font_size" : 20,
+//Image.py
+    //Percentage if split
+    "split" : 0.9,
+    // Nessecary to pass call_count and index
+    //Text at the bottom
+    "text_id" : "Figure {call_count}_{index}",
+    "text_x_pos" : 0,
+    "text_y_pos" : -5,
+//Dataset2.py
+    //Page Margin
+    "margin" : 50,
+    //num_rows
+    "row" : 3,
+    //columns
+    "col" : 3,
+    //shadow
+    "shadow_offset" : 10,
+    "shadow_color" : [180 , 180, 180],
+
+}
