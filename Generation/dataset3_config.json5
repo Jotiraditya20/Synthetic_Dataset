@@ -1,0 +1,71 @@
+{
+    //Page Hieght and Width
+    "PAGE_WIDTH" : 1200,
+    "PAGE_HEIGHT" : 1600,
+    //Margins
+    "MARGIN" : 50,
+    //COCO Template
+    coco_template : {
+    "info": {
+        "year": 2025,
+        "version": "1",
+        "description": "Generated research paper dataset",
+        "date_created": "2025-02-27T00:00:00+00:00"
+    },
+    "licenses": [
+        {
+            "id": 1,
+            "name": "Public Domain",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+        }
+    ],
+    "categories": [
+        {"id": 0, "name": "image", "supercategory": "document"},
+        {"id": 1, "name": "graph", "supercategory": "document"},
+        {"id": 2, "name": "text", "supercategory": "document"}
+    ],
+    "images": [],
+    "annotations": []
+    },
+    //Row hieght min and max
+    "min_row" : 300,
+    "max_row" : 500,
+    
+    //Weights of picture and Text
+    "weights": [30, 70],
+    //Fonts possible for the Page
+    "Fonts" : ["times.ttf","arial.ttf","helvetica.ttf", "georgia.ttf", "calibri.ttf", "verdana.ttf", "tahoma.ttf", "garamond.ttf"],
+    "min_font_size" : 14,
+    "max_font_size" : 20,
+    //For the function generate_research_page_single
+    //Image and Graph
+    "same_size" : 1,
+    "square" : 1,
+    "min_pic_height" : 300,
+    "max_pic_height" : 500,
+    "min_pic_width" : 300,
+    "max_pic_width" : 500,
+    "pic_offset": 1,
+    "pic_weights": [50, 50],
+    //TEXT size min reduction max reduction Min has to be greater than max
+    "min_hieght_reduce" : 0,
+    "max_hieght_reduce" : 0,
+    "min_width_reduce" : 0,
+    "max_width_reduce" : 0, 
+        //offsets when there are positions
+    "offset" : 1,
+    //For function generate_research_page_N_columns
+    //No of columns max allowed is 4
+    "N" : 2,
+    //Max recommended is 20
+    "col_offset" : 20,
+    //Text size reductions min has to be greater than max
+    "min_hieght_reduce1" : 0,
+    "max_hieght_reduce1" : 0,
+    "min_width_reduce1" : 0,
+    "max_width_reduce1" : 0, 
+
+    //Page No
+    "page_number_position": "right",
+    "x_positioning" : 100,
+}

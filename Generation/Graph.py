@@ -39,7 +39,7 @@ def generate_graphs(num_graphs, sizes):
 
     for i in range(num_graphs):
         fig, ax = plt.subplots()
-        num_features = random.randint(2, 4)
+        num_features = random.randint(1, 3)
 
         for _ in range(num_features):
             num_points = random.randint(10, 50)

@@ -3,11 +3,12 @@ import random
 from PIL import Image, ImageDraw, ImageFont
 import json5
 
-#Loading json file
+# Load json configuration file
 def load_config(config_path):
     with open(config_path, "r") as f:
         config = json5.load(f)  # json5 allows comments
     return config
+
 config = load_config("Generation/config.json5")
 
 # Global counter to track function calls
@@ -16,19 +17,14 @@ call_count = 0
 # Path to the corpus file
 CORPUS_FILE = "Generation/corpus.txt"
 
-# List of font paths
-FONT_PATHS = config["font_paths"]
-
-
+# Function to load words from the corpus file
 def load_corpus(corpus_file):
-    """Load the corpus file and return a list of words."""
     with open(corpus_file, "r") as file:
         words = [line.strip() for line in file if line.strip()]
     return words
 
-
+# Wrap text to fit within max width
 def wrap_text(text, font, max_width):
-    """Wrap text to fit within a specified width and justify it."""
     lines = []
     words = text.split()
     current_line = words[0]
@@ -45,10 +41,18 @@ def wrap_text(text, font, max_width):
     lines.append(current_line)
     return lines
 
-
-def justify_text(draw, text, font, x, y, max_width):
-    """Draw justified text on the image."""
+# Function to justify text and draw on image
+def justify_text(draw, text, font, x, y, max_width, image_height):
     lines = wrap_text(text, font, max_width)
+    line_height = font.getbbox("hg")[3] - font.getbbox("hg")[1] + 5  # Increased spacing
+
+    # Calculate total text height
+    total_text_height = len(lines) * line_height
+
+    # Check if text fits within the image height, if not, reduce lines
+    if total_text_height > image_height - 10:  # Keeping 10px bottom margin
+        lines = lines[: (image_height - 10) // line_height]
+
     for line in lines:
         words_in_line = line.split()
         if len(words_in_line) > 1:
@@ -63,31 +67,28 @@ def justify_text(draw, text, font, x, y, max_width):
         else:
             draw.text((x, y), line, font=font, fill="black")
 
-        y += font.getbbox("hg")[3] - font.getbbox("hg")[1] + 10  # Increased spacing
+        y += line_height  # Adjusted for more spacing
 
-
-def generate_text_image(text, image_size):
-    """Generate an image with text fully embedded and justified."""
+# Generate a text image with proper spacing
+def generate_text_image(text, image_size, font_path="times.ttf", font_size=14):
     image = Image.new("RGB", image_size, "white")
     draw = ImageDraw.Draw(image)
 
-    font_path = random.choice(FONT_PATHS) # Paths
-    font_size = random.randint(config["min_font_size"], config["max_font_size"])  #font size range
-    
     try:
         font = ImageFont.truetype(font_path, font_size)
     except IOError:
         print(f"Font {font_path} not found. Using default font.")
         font = ImageFont.load_default()
 
-    justify_text(draw, text, font, 10, 10, image_size[0] - 30)
+    justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1])  # Adjusted margins
 
     return image
 
-
-def generate_text_images(num_images, image_sizes):
+# Generate multiple text images
+def generate_text_images(num_images, image_sizes, font="times.ttf", size=14):
     global call_count
-    call_count += 1
+    call_count += 1  # Increment call count for unique filenames
+
     base_dir = "Generation"
     text_dir = os.path.join(base_dir, "text")
     os.makedirs(text_dir, exist_ok=True)
@@ -102,16 +103,15 @@ def generate_text_images(num_images, image_sizes):
         num_words = random.randint(800, 1200)
         text = " ".join(random.choices(words, k=num_words))
 
-        img = generate_text_image(text, img_size)
+        img = generate_text_image(text, img_size, font, size)
 
-        save_path = os.path.join(text_dir, f"{call_count}_{i+1}.jpg")
+        save_path = os.path.join(text_dir, f"{call_count}_{i+1}.jpg")  # Modified filename format
         img.save(save_path)
         image_paths.append(save_path)
 
     return image_paths
 
-
 # Example usage
-#image_sizes = [[400, 200], [500, 300], [600, 400], [800, 600], [1000, 800]]
-#image_paths = generate_text_images(5, image_sizes)
+#image_sizes = [[391, 440], [391, 271], [380, 380], [400, 350], [600, 250], [600, 350]]
+#image_paths = generate_text_images(6, image_sizes)
 #print(f"Generated text images: {image_paths}")

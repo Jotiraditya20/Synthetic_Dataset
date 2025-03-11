@@ -23,10 +23,10 @@
 //Dataset2.py
     //Page Margin
     "margin" : 50,
-    //num_rows
-    "row" : 3,
+    //num_rows cannot exceed 4
+    "row" : 4,
     //columns
-    "col" : 3,
+    "col" : 2,
     //shadow
     "shadow_offset" : 10,
     "shadow_color" : [180 , 180, 180],

@@ -3,11 +3,12 @@ import random
 from PIL import Image, ImageDraw, ImageFont
 import json5
 
-#Loading json file
+# Loading JSON file
 def load_config(config_path):
     with open(config_path, "r") as f:
         config = json5.load(f)  # json5 allows comments
     return config
+
 config = load_config("Generation/config.json5")
 
 # Global counter to track function calls
@@ -25,7 +26,6 @@ def get_random_images(num_images, image_sizes, science_folder="Generation/scienc
     science_images = [os.path.join(science_folder, f) for f in os.listdir(science_folder) if f.endswith(('.jpg', '.png', '.jpeg'))]
     non_science_images = [os.path.join(non_science_folder, f) for f in os.listdir(non_science_folder) if f.endswith(('.jpg', '.png', '.jpeg'))]
 
-    # Ensure there are enough images in the folders
     if not science_images:
         raise ValueError("No science images found in the specified folder.")
     if not non_science_images:
@@ -38,15 +38,14 @@ def get_random_images(num_images, image_sizes, science_folder="Generation/scienc
         else:
             image_path = random.choice(non_science_images)
 
-        # Open the image
         img = Image.open(image_path)
 
-        # Get target size and define extra space for text (fixed at 20px)
-        target_width, target_height = image_sizes[i % len(image_sizes)]  # Cycle through sizes
-        text_height = 20
+        # Target width and height (including text space)
+        target_width, target_height = image_sizes[i % len(image_sizes)]
+        text_height = 20  # Fixed text height
         resized_height = target_height - text_height  # Image height before adding text
 
-        # Resize image first
+        # Resize the image first
         img = img.resize((target_width, resized_height), Image.LANCZOS)
 
         # Create a new image with extra space for text
@@ -55,7 +54,7 @@ def get_random_images(num_images, image_sizes, science_folder="Generation/scienc
 
         # Draw text in the extra space
         draw = ImageDraw.Draw(new_img)
-        fig_id = config["text_id"].format(call_count=call_count, index = i+1)
+        fig_id = config["text_id"].format(call_count=call_count, index=i+1)
 
         # Load font
         try:
@@ -63,10 +62,13 @@ def get_random_images(num_images, image_sizes, science_folder="Generation/scienc
         except IOError:
             font = ImageFont.load_default()
 
-        # Center the text horizontally
-        text_width, text_height = draw.textsize(fig_id, font=font)
+        # Get text size using textbbox()
+        bbox = draw.textbbox((0, 0), fig_id, font=font)
+        text_width, text_height = bbox[2] - bbox[0], bbox[3] - bbox[1]
+
+        # Calculate text position
         text_x = ((target_width - text_width) // 2) + config["text_x_pos"]
-        text_y = resized_height + (text_height // 2) + config["text_y_pos"] # Place in the extra space
+        text_y = resized_height + (text_height // 2) + config["text_y_pos"]  # Place in the extra space
 
         draw.text((text_x, text_y), fig_id, fill="black", font=font)
 
@@ -80,6 +82,6 @@ def get_random_images(num_images, image_sizes, science_folder="Generation/scienc
 # Example usage
 #science_folder = "Generation/science_images"
 #non_science_folder = "Generation/non_science_images"
-#image_sizes = [[300, 300], [400, 400], [500, 500], [600, 600]]
+#image_sizes = [[200, 200], [400, 400], [500, 500], [600, 600]]
 #image_paths = get_random_images(5, image_sizes, science_folder, non_science_folder)
 #print(f"Generated images: {image_paths}")
