@@ -105,7 +105,7 @@ def generate_research_page_single(page_id):
 
         #To Avoid very small images to be created causing errors and to highly blurry images
         if ROW_HEIGHT < 200:
-            element_type = 1
+            element_type = 2
             print("Selected Text")
         
         if element_type == 0: # Picture Left Oriented
@@ -244,7 +244,8 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
             element_type = random.choices([0, 2], weights=config["weights"])[0]
 
             if ROW_HEIGHT < 200:
-                element_type = 1
+                element_type = 2
+                print("Selected Text")
 
             if element_type == 0: #Pic selected left oriented
                 width_left = ROW_WIDTH

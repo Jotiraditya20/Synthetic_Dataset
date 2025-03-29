@@ -1,2 +1,10 @@
 text-image-processing/
 Generation/api.json
+Generation/non_science_images/
+Generation/science_images/
+Generation/graph/
+dataset/
+atraining/
+Generation/text/
+Generation/page/
+Generation/image/
