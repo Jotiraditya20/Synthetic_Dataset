@@ -215,7 +215,11 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
     draw = ImageDraw.Draw(page)
 
     #Generates Rows Randomly
-    rows = row_generater(PAGE_HEIGHT, config["min_row"], config["max_row"], MARGIN)
+    rowss = []
+    for i in range(0, n):
+        row = row_generater(PAGE_HEIGHT, config["min_row"], config["max_row"], MARGIN)
+        rowss.append(row)
+
 
     #Font for the page
     fonts = config["Fonts"]
@@ -232,12 +236,14 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
     add_image(page_count, image_id, config["PAGE_WIDTH"], config["PAGE_HEIGHT"])
 
     #Iterating 
-    for i in range(1, len(rows)):
+    for j in range(0, n):
+        for i in range(1, len(rowss[j])):
+            rows = rowss[j]
         #Calculating limits and size of boxes
-        ROW_HEIGHT = rows[i] - rows[i - 1]
-        ROW_WIDTH = (PAGE_WIDTH - (2 * MARGIN) - (n*config["col_offset"]))//n
-        HEIGHT_LIMITS = [rows[i - 1], rows[i]]
-        for j in range(0, n):
+            ROW_HEIGHT = rows[i] - rows[i - 1]
+            ROW_WIDTH = (PAGE_WIDTH - (2 * MARGIN) - (n*config["col_offset"]))//n
+            HEIGHT_LIMITS = [rows[i - 1], rows[i]]
+            
             WIDTH_LIMITS = [MARGIN + (j * ROW_WIDTH) + (j*config["col_offset"]), MARGIN + ((j+1) * ROW_WIDTH)]
 
             #0 is picture and 1 is text
@@ -283,13 +289,13 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
                         width_left = width_left - pic_width
                         if width_left < 0:
                             break
-                    print("pic_height: " + str(pic_height))
-                    print("pic_width: " + str(pic_width))
+                    #print("pic_height: " + str(pic_height))
+                    #print("pic_width: " + str(pic_width))
                     #0 is or image and 1 is for graph
                     element_type = element_type = random.choices([0, 1], weights=config["pic_weights"])[0]
                     if element_type == 0:
                         image_path = get_random_images(1, [(pic_width, pic_height)], "Generation/science_images",
-                                                   "Generation/non_science_images")[0]    
+                                                "Generation/non_science_images")[0]    
                     else:
                         image_path = generate_graphs(1, [(pic_width, pic_height)])[0]
                     elements.append({

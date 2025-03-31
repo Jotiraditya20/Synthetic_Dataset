@@ -70,18 +70,39 @@ def justify_text(draw, text, font, x, y, max_width, image_height):
         y += line_height  # Adjusted for more spacing
 
 # Generate a text image with proper spacing
-def generate_text_image(text, image_size, font_path="times.ttf", font_size=14):
+def generate_text_image(text, image_size, font_path="times.ttf", font_size=14, bold=False):
     image = Image.new("RGB", image_size, "white")
     draw = ImageDraw.Draw(image)
 
     try:
-        font = ImageFont.truetype(font_path, font_size)
+        if bold:
+            # Attempt 1: Load dedicated bold font (e.g., "timesbd.ttf")
+            bold_font_variants = [
+                font_path.replace(".ttf", "bd.ttf"),  # Common pattern (timesbd.ttf)
+                font_path.replace(".ttf", "-bold.ttf"),  # Alternate pattern (times-bold.ttf)
+                os.path.join(os.path.dirname(font_path), "Bold", os.path.basename(font_path))  # Bold subfolder
+            ]
+            
+            for bold_font_path in bold_font_variants:
+                try:
+                    font = ImageFont.truetype(bold_font_path, font_size)
+                    break  # Successfully loaded bold font
+                except IOError:
+                    continue
+            else:
+                # Attempt 2: Fake bold effect if no bold font found
+                font = ImageFont.truetype(font_path, font_size)
+                # Draw text twice with slight offset for bold effect
+                justify_text(draw, text, font, 11, 10, image_size[0] - 20, image_size[1])  # Offset right
+                justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1])  # Original
+                return image  # Early return since we manually drew bold text
+        else:
+            font = ImageFont.truetype(font_path, font_size)
     except IOError:
         print(f"Font {font_path} not found. Using default font.")
         font = ImageFont.load_default()
 
-    justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1])  # Adjusted margins
-
+    justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1])
     return image
 
 # Generate multiple text images
