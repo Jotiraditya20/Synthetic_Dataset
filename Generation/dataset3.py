@@ -61,8 +61,8 @@ def row_generater(PAGE_HEIGHT = PAGE_HEIGHT, min = 300, max = 500, MARGIN = 50):
         if next > PAGE_HEIGHT - MARGIN:
             next = PAGE_HEIGHT - MARGIN
         rows.append(next)
-    print("Rows:", end = " ")
-    print(rows)
+    #print("Rows:", end = " ")
+    #print(rows)
     return rows
 
 #Generates Single columns for text and n columns for graph and images
@@ -100,13 +100,13 @@ def generate_research_page_single(page_id):
         vertical_pos_limits = [rows[i-1], rows[i]]
         horizontal_pos_limits = [0+MARGIN, PAGE_WIDTH - MARGIN]
 
-        # 0 is picture or graph and 1 is Text
+        # 0 is picture or graph and 2 is Text
         element_type = random.choices([0, 2], weights=config["weights"])[0]
 
         #To Avoid very small images to be created causing errors and to highly blurry images
         if ROW_HEIGHT < 200:
             element_type = 2
-            print("Selected Text")
+            #print("Selected Text")
         
         if element_type == 0: # Picture Left Oriented
             width_left = ROW_WIDTH
@@ -145,8 +145,8 @@ def generate_research_page_single(page_id):
                     width_left = width_left - pic_width
                     if width_left < 0:
                         break
-                print("pic_height: " + str(pic_height))
-                print("pic_width: " + str(pic_width))
+                #print("pic_height: " + str(pic_height))
+                #print("pic_width: " + str(pic_width))
                 #0 is or image and 1 is for graph
                 element_type = element_type = random.choices([0, 1], weights=config["pic_weights"])[0]
                 if element_type == 0:
@@ -225,6 +225,7 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
     fonts = config["Fonts"]
     font_path = random.choice(fonts)
     font_size = random.randint(config["min_font_size"], config["max_font_size"])
+    font_bold = random.randint(30, 40)
 
     #Elememts To store all elements
     elements = []
@@ -246,12 +247,15 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
             
             WIDTH_LIMITS = [MARGIN + (j * ROW_WIDTH) + (j*config["col_offset"]), MARGIN + ((j+1) * ROW_WIDTH)]
 
-            #0 is picture and 1 is text
+            #0 is picture and 2 is text
             element_type = random.choices([0, 2], weights=config["weights"])[0]
 
-            if ROW_HEIGHT < 200:
+            bold = False
+            if ROW_HEIGHT < 150:
                 element_type = 2
-                print("Selected Text")
+                
+                bold = random.choices([True, False], weights=[70, 30])[0]
+                #print("Selected Bold Text and Increased Font Size")
 
             if element_type == 0: #Pic selected left oriented
                 width_left = ROW_WIDTH
@@ -319,7 +323,10 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
                     y_pos = HEIGHT_LIMITS[0]
                     x_pos = WIDTH_LIMITS[0]
                 try:
-                    image_path = generate_text_images(1, [(text_width, text_height)],font_path, font_size)[0]
+                    if bold == False:
+                        image_path = generate_text_images(1, [(text_width, text_height)],font_path, font_size, bold = bold)[0]
+                    else:
+                        image_path = generate_text_images(1, [(text_width, text_height)],font_path, font_bold, bold = bold)[0]
                 except Exception as e:
                     print(f"Error generating Text element: {e}")
                     continue
@@ -395,8 +402,9 @@ def generate_page_number_image(page_number, x_min, y_min,font_size=30, font_path
 def generate_dataset(num_pages):
     """Generates a dataset of research paper-style images."""
     for page_id in range(1, num_pages + 1):
+        N = 2
         print(f"Generating page {page_id}...")
-        generate_research_page_N_columns(page_id)
+        generate_research_page_N_columns(page_id, n= (page_id%N) + 1)
         #generate_research_page_single(page_id)
     
     coco_path = os.path.join(BASE_DIR, "annotations.json")
@@ -405,5 +413,5 @@ def generate_dataset(num_pages):
     
     print(f"Dataset generated with {num_pages} pages. COCO annotations saved to {coco_path}.")
 
-generate_dataset(10)
+generate_dataset(5000)
 #generate_research_page_N_columns(config["N"], 1)

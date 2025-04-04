@@ -52,8 +52,8 @@ def generate_graphs(num_graphs, sizes):
         ax.set_title(f"Graph {call_count}_{i+1}", fontsize=14)
 
         # Add figure number text
-        fig_id = config["fig_id"].format(call_count=call_count, index=i+1)
-        ax.text(config["x_pos"], config["y_pos"], fig_id, transform=ax.transAxes, fontsize=config["font_size"], ha='right', va='top', color='black')
+        #fig_id = config["fig_id"].format(call_count=call_count, index=i+1)
+        #ax.text(config["x_pos"], config["y_pos"], fig_id, transform=ax.transAxes, fontsize=config["font_size"], ha='right', va='top', color='black')
 
         # Save the graph
         graph_path = os.path.join(graph_dir, f"{call_count}_{i+1}.jpg")
@@ -73,6 +73,6 @@ def generate_graphs(num_graphs, sizes):
     return image_paths
 
 # Example usage
-# image_sizes = [[200, 200], [300, 300], [400, 400], [500, 500], [1600, 100]]
-# image_paths = generate_graphs(5, image_sizes)
-# print(f"Generated images: {image_paths}")
+#image_sizes = [[200, 200], [300, 300], [400, 400], [500, 500], [1600, 100]]
+#image_paths = generate_graphs(5, image_sizes)
+#print(f"Generated images: {image_paths}")

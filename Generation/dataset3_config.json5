@@ -28,13 +28,13 @@
     "annotations": []
     },
     //Row hieght min and max
-    "min_row" : 300,
-    "max_row" : 500,
+    "min_row" : 30,
+    "max_row" : 700,
     
     //Weights of picture and Text
-    "weights": [30, 70],
+    "weights": [60, 40],
     //Fonts possible for the Page
-    "Fonts" : ["times.ttf","arial.ttf","helvetica.ttf", "georgia.ttf", "calibri.ttf", "verdana.ttf", "tahoma.ttf", "garamond.ttf"],
+    "Fonts" : ["times.ttf","arial.ttf", "georgia.ttf", "calibri.ttf", "verdana.ttf", "tahoma.ttf"],
     "min_font_size" : 14,
     "max_font_size" : 20,
     //For the function generate_research_page_single
@@ -42,9 +42,9 @@
     "same_size" : 1,
     "square" : 1,
     "min_pic_height" : 300,
-    "max_pic_height" : 500,
+    "max_pic_height" : 600,
     "min_pic_width" : 300,
-    "max_pic_width" : 500,
+    "max_pic_width" : 600,
     "pic_offset": 1,
     "pic_weights": [50, 50],
     //TEXT size min reduction max reduction Min has to be greater than max

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 from Text import load_corpus
 import scipy.stats as stats
+
 # Sample words for random titles and labels
 CORPUS_FILE = "Generation/corpus.txt"
 words = load_corpus(CORPUS_FILE)
@@ -10,11 +11,6 @@ words = load_corpus(CORPUS_FILE)
 def generate_random_text(word_count):
     """Generate a random title or label with a given number of words."""
     return " ".join(random.sample(words, word_count))
-
-import numpy as np
-import matplotlib.pyplot as plt
-import random
-
 
 def generate_random_scatter():
     """Generates a research-style scatter plot with realistic formatting and randomized parameters."""
@@ -71,6 +67,12 @@ def generate_random_scatter():
 
     # Create scatter plot
     plt.figure(figsize=(7, 5))
+    ax = plt.gca()
+    
+    # Remove top and right spines
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
     plt.scatter(x, y, c=point_colors, alpha=0.7, edgecolors=edgecolor, marker=marker, s=marker_size)
 
     # Set random labels and title
@@ -89,6 +91,11 @@ def generate_random_line_plot():
     
     num_lines = random.randint(1, 2)  # Random number of lines in the plot
     plt.figure(figsize=(7, 5))  # Research paper size
+    ax = plt.gca()
+    
+    # Remove top and right spines
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
 
     # Research-friendly colors (good contrast in print)
     research_colors = ['black', 'dimgray', 'darkblue', 'darkred', 'darkgreen']
@@ -143,7 +150,6 @@ def generate_random_line_plot():
     plt.ylabel(ylabel, fontsize=12)
     plt.legend(fontsize=10, loc="best")
     grid = random.choices([True, False])[0]
-    #print(grid)
     if(grid):
         plt.grid(True, linestyle='--', alpha=0.5)  # Subtle grid for research clarity
 
@@ -183,6 +189,11 @@ def generate_random_bar_graph():
 
     # Create the figure
     plt.figure(figsize=(8, 6))
+    ax = plt.gca()
+    
+    # Remove top and right spines
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
     
     if bar_type == "single":
         # Single-colored bars
@@ -260,6 +271,12 @@ def generate_random_histogram():
 
     # Create the figure
     plt.figure(figsize=(8, 6))
+    ax = plt.gca()
+    
+    # Remove top and right spines
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
     plt.hist(data, bins=num_bins, color=bar_color, edgecolor='black', alpha=0.85)
 
     # Set title and labels
@@ -301,43 +318,16 @@ def generate_random_pie_chart():
 
     # Create figure
     plt.figure(figsize=(7, 7))
+    ax = plt.gca()
+    
+    # Remove top and right spines (though less relevant for pie charts)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
     plt.pie(values, labels=labels, colors=colors, autopct='%1.1f%%', startangle=start_angle, explode=explode, wedgeprops={'edgecolor': 'black'})
 
     # Set title
     plt.title(title, fontsize=14, fontweight='bold')
-
-    return plt
-
-
-    """
-    Generates a blank graph with only a title, axis labels, and x/y axis lines.
-    """
-    fig, ax = plt.subplots()
-
-    # Generate random ranges for axes
-    x_min, x_max = sorted(np.random.uniform(-1000, 1000, 2))
-    y_min, y_max = sorted(np.random.uniform(-1000, 1000, 2))
-    
-    # Set limits based on the generated ranges
-    ax.set_xlim(x_min, x_max)
-    ax.set_ylim(y_min, y_max)
-
-    # Draw X and Y axis lines
-    ax.axhline(0, color='black', linewidth=1, linestyle='--')  # X-axis
-    ax.axvline(0, color='black', linewidth=1, linestyle='--')  # Y-axis
-
-    # Randomly assign title and labels
-    title = random.choice(["Data Analysis", "Statistical Overview", "Performance Metrics", "Trend Analysis", "Empty Graph"])
-    x_label = random.choice(["Time (s)", "Distance (m)", "Size (cm)", "Value (units)"])
-    y_label = random.choice(["Frequency (Hz)", "Amplitude (dB)", "Count", "Intensity (lux)"])
-
-    ax.set_title(title, fontsize=14)
-    ax.set_xlabel(x_label, fontsize=12)
-    ax.set_ylabel(y_label, fontsize=12)
-
-    # Hide tick marks
-    ax.set_xticks([])
-    ax.set_yticks([])
 
     return plt
 
@@ -346,6 +336,10 @@ def generate_blank_graph():
     Generates a blank graph with a random title, axis labels, and x/y axis lines with values.
     """
     fig, ax = plt.subplots()
+    
+    # Remove top and right spines
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
 
     # Generate random ranges for axes
     x_min, x_max = sorted(np.random.uniform(-1000, 1000, 2))
@@ -383,7 +377,3 @@ def generate_blank_graph():
         ax.grid(True, linestyle="--", alpha=0.3)
 
     return plt
-
-# Example usage:
-#plot = generate_blank_graph()
-#plot.show()

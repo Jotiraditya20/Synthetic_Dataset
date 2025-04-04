@@ -42,7 +42,7 @@ def wrap_text(text, font, max_width):
     return lines
 
 # Function to justify text and draw on image
-def justify_text(draw, text, font, x, y, max_width, image_height):
+def justify_text(draw, text, font, x, y, max_width, image_height, bold=False):
     lines = wrap_text(text, font, max_width)
     line_height = font.getbbox("hg")[3] - font.getbbox("hg")[1] + 5  # Increased spacing
 
@@ -54,18 +54,23 @@ def justify_text(draw, text, font, x, y, max_width, image_height):
         lines = lines[: (image_height - 10) // line_height]
 
     for line in lines:
-        words_in_line = line.split()
-        if len(words_in_line) > 1:
-            total_text_width = sum(font.getbbox(word)[2] - font.getbbox(word)[0] for word in words_in_line)
-            total_spacing = max_width - total_text_width
-            space_between_words = total_spacing // (len(words_in_line) - 1) if len(words_in_line) > 1 else 0
-
-            x_offset = x
-            for word in words_in_line:
-                draw.text((x_offset, y), word, font=font, fill="black")
-                x_offset += font.getbbox(word)[2] - font.getbbox(word)[0] + space_between_words
-        else:
+        if bold:
+            # For bold text, simply draw left-aligned
             draw.text((x, y), line, font=font, fill="black")
+        else:
+            # Original justification logic for non-bold text
+            words_in_line = line.split()
+            if len(words_in_line) > 1:
+                total_text_width = sum(font.getbbox(word)[2] - font.getbbox(word)[0] for word in words_in_line)
+                total_spacing = max_width - total_text_width
+                space_between_words = total_spacing // (len(words_in_line) - 1) if len(words_in_line) > 1 else 0
+
+                x_offset = x
+                for word in words_in_line:
+                    draw.text((x_offset, y), word, font=font, fill="black")
+                    x_offset += font.getbbox(word)[2] - font.getbbox(word)[0] + space_between_words
+            else:
+                draw.text((x, y), line, font=font, fill="black")
 
         y += line_height  # Adjusted for more spacing
 
@@ -86,15 +91,17 @@ def generate_text_image(text, image_size, font_path="times.ttf", font_size=14, b
             for bold_font_path in bold_font_variants:
                 try:
                     font = ImageFont.truetype(bold_font_path, font_size)
+                    print("Bold Text Found:" + font_path)
                     break  # Successfully loaded bold font
                 except IOError:
                     continue
             else:
                 # Attempt 2: Fake bold effect if no bold font found
+                print("Using Fake Bold:" + font_path)
                 font = ImageFont.truetype(font_path, font_size)
                 # Draw text twice with slight offset for bold effect
-                justify_text(draw, text, font, 11, 10, image_size[0] - 20, image_size[1])  # Offset right
-                justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1])  # Original
+                justify_text(draw, text, font, 11, 10, image_size[0] - 20, image_size[1], bold=True)  # Offset right
+                justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1], bold=True)  # Original
                 return image  # Early return since we manually drew bold text
         else:
             font = ImageFont.truetype(font_path, font_size)
@@ -102,11 +109,11 @@ def generate_text_image(text, image_size, font_path="times.ttf", font_size=14, b
         print(f"Font {font_path} not found. Using default font.")
         font = ImageFont.load_default()
 
-    justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1])
+    justify_text(draw, text, font, 10, 10, image_size[0] - 20, image_size[1], bold=bold)
     return image
 
 # Generate multiple text images
-def generate_text_images(num_images, image_sizes, font="times.ttf", size=14):
+def generate_text_images(num_images, image_sizes, font="times.ttf", size=14, bold=False):
     global call_count
     call_count += 1  # Increment call count for unique filenames
 
@@ -124,7 +131,7 @@ def generate_text_images(num_images, image_sizes, font="times.ttf", size=14):
         num_words = random.randint(800, 1200)
         text = " ".join(random.choices(words, k=num_words))
 
-        img = generate_text_image(text, img_size, font, size)
+        img = generate_text_image(text, img_size, font, size, bold)
 
         save_path = os.path.join(text_dir, f"{call_count}_{i+1}.jpg")  # Modified filename format
         img.save(save_path)
@@ -133,6 +140,8 @@ def generate_text_images(num_images, image_sizes, font="times.ttf", size=14):
     return image_paths
 
 # Example usage
-#image_sizes = [[391, 440], [391, 271], [380, 380], [400, 350], [600, 250], [600, 350]]
-#image_paths = generate_text_images(6, image_sizes)
+#image_sizes = [[500, 30], [391, 271], [380, 380], [400, 350], [600, 250], [600, 350]]
+#image_paths = generate_text_images(6, image_sizes, bold=True)
 #print(f"Generated text images: {image_paths}")
+
+

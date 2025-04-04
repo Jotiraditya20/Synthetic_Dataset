@@ -43,4 +43,4 @@ def visualize_annotations(image_id):
     plt.show()
 
 # Example: Visualize annotations for image_id = 0
-visualize_annotations(image_id=0)  # Change this to any valid image ID
+visualize_annotations(image_id=1500)  # Change this to any valid image ID

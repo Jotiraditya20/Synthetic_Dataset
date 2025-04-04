@@ -8,3 +8,11 @@ atraining/
 Generation/text/
 Generation/page/
 Generation/image/
+CNN/
+extracted/
+runs/
+yolo11n.pt
+yolo12s.pt
+yolo12n.pt
+atraining.zip
+reserchpaper/
