@@ -248,16 +248,16 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
             WIDTH_LIMITS = [MARGIN + (j * ROW_WIDTH) + (j*config["col_offset"]), MARGIN + ((j+1) * ROW_WIDTH)]
 
             #0 is picture and 2 is text
-            element_type = random.choices([0, 2], weights=config["weights"])[0]
+            chosen_type = random.choices(['image', 'text'], weights=config["weights"])[0]
 
             bold = False
             if ROW_HEIGHT < 150:
-                element_type = 2
+                chosen_type = 'text'
                 
                 bold = random.choices([True, False], weights=[70, 30])[0]
                 #print("Selected Bold Text and Increased Font Size")
 
-            if element_type == 0: #Pic selected left oriented
+            if chosen_type == "image": #Pic selected left oriented
                 width_left = ROW_WIDTH
 
                 if config["same_size"] == 1 and config["square"] == 1:
@@ -296,11 +296,13 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
                     #print("pic_height: " + str(pic_height))
                     #print("pic_width: " + str(pic_width))
                     #0 is or image and 1 is for graph
-                    element_type = element_type = random.choices([0, 1], weights=config["pic_weights"])[0]
-                    if element_type == 0:
+                    pic_type = random.choices(['image', 'graph'], weights=config["pic_weights"])[0]
+                    if pic_type == 'image':
+                        element_type = 1
                         image_path = get_random_images(1, [(pic_width, pic_height)], "Generation/science_images",
                                                 "Generation/non_science_images")[0]    
                     else:
+                        element_type = 0
                         image_path = generate_graphs(1, [(pic_width, pic_height)])[0]
                     elements.append({
                     "type": element_type,
@@ -308,7 +310,8 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
                     "bbox": (x_pos, y_pos, pic_width, pic_height)
                     })
 
-            elif element_type == 2: #Text selected
+            elif chosen_type == "text": #Text selected
+                element_type = 2
                 #Calculation of Text boxe sizes
                 text_height = random.randint(ROW_HEIGHT - config["min_hieght_reduce1"], ROW_HEIGHT - config["max_hieght_reduce1"])
                 text_width = random.randint(ROW_WIDTH - config["min_width_reduce1"], ROW_WIDTH - config["max_width_reduce1"])
