@@ -42,7 +42,7 @@ def generate_graphs(num_graphs, sizes):
         'pie': generate_random_pie_chart,
         'blank' : generate_blank_graph
     }
-
+    graph_type = None
     for i in range(num_graphs):
         graph_type = random.choice(list(graph_functions.keys()))  # Pick a single graph type per image
         plt = graph_functions[graph_type]()  # Generate graph using `graphs.py` function
@@ -63,14 +63,14 @@ def generate_graphs(num_graphs, sizes):
         # Resize the image
         img = Image.open(graph_path)
         img_size = sizes[i % len(sizes)]  # Cycle through sizes if fewer sizes than images
-        img = img.resize(img_size, Image.LANCZOS)
+        img = img.resize(img_size, Image.BICUBIC)
 
         # Save resized image
         save_path = os.path.join(graph_dir, f"{call_count}_{i+1}.jpg")
         img.save(save_path)
         image_paths.append(save_path)
 
-    return image_paths
+    return image_paths, graph_type
 
 # Example usage
 #image_sizes = [[200, 200], [300, 300], [400, 400], [500, 500], [1600, 100]]

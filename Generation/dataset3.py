@@ -303,7 +303,7 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
                                                 "Generation/non_science_images")[0]    
                     else:
                         element_type = 0
-                        image_path = generate_graphs(1, [(pic_width, pic_height)])[0]
+                        image_path = generate_graphs(1, [(pic_width, pic_height)])[0][0]
                     elements.append({
                     "type": element_type,
                     "path": image_path,

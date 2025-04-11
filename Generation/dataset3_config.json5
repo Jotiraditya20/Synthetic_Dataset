@@ -20,9 +20,11 @@
         }
     ],
     "categories": [
-        {"id": 0, "name": "image", "supercategory": "document"},
-        {"id": 1, "name": "graph", "supercategory": "document"},
-        {"id": 2, "name": "text", "supercategory": "document"}
+        {"id": 1, "name": "image", "supercategory": "document"},
+        {"id": 0, "name": "graph", "supercategory": "document"},
+        {"id": 2, "name": "text", "supercategory": "document"},
+        {"id": 3, "name": "x_axis", "supercategory": "graph"},
+        {"id": 4, "name": "y_axis", "supercategory": "graph"},
     ],
     "images": [],
     "annotations": []
@@ -46,7 +48,7 @@
     "min_pic_width" : 300,
     "max_pic_width" : 600,
     "pic_offset": 1,
-    "pic_weights": [50, 50],
+    "pic_weights": [30, 40],
     //TEXT size min reduction max reduction Min has to be greater than max
     "min_hieght_reduce" : 0,
     "max_hieght_reduce" : 0,
