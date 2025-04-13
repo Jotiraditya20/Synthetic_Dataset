@@ -2,11 +2,11 @@ import cv2
 import os
 
 # Paths
-image_path = "atraining/valid/images/3_png.rf.890cb57e2af214728fba250092441eb1.jpg"
-label_path = "atraining/valid/labels/3_png.rf.890cb57e2af214728fba250092441eb1.txt"
-class_names = ['graph', 'image', 'text', 'x_axis', 'y_axis']
-#image_path = "atraining/train/images/train/page_1.jpg"
-#label_path = "atraining/train/labels/train/page_1.txt"
+#image_path = "atraining/valid/images/3_png.rf.890cb57e2af214728fba250092441eb1.jpg"
+#label_path = "atraining/valid/labels/3_png.rf.890cb57e2af214728fba250092441eb1.txt"
+class_names = ['graph', 'image', 'text']
+image_path = "atraining/train/images/page_1.jpg"
+label_path = "atraining/train/labels/page_1.txt"
 
 # Load image
 img = cv2.imread(image_path)
@@ -30,8 +30,8 @@ for line in lines:
     # Draw box and label
     color = (0, 255, 0)
     cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
+    print("Processing label with cls_id:", cls_id)
     cv2.putText(img, class_names[cls_id], (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
-
 # Save or display the result
 #cv2.imwrite("labeled_page_4.jpg", img)
 # or to display:

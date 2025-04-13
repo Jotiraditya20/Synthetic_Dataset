@@ -8,8 +8,8 @@ DATASET_FOLDER = "dataset"  # Folder where images are originally stored
 OUTPUT_FOLDER = "atraining"
 
 # Create necessary folders
-os.makedirs(f"{OUTPUT_FOLDER}/images/train", exist_ok=True)
-os.makedirs(f"{OUTPUT_FOLDER}/labels/train", exist_ok=True)
+os.makedirs(f"{OUTPUT_FOLDER}/train/images", exist_ok=True)
+os.makedirs(f"{OUTPUT_FOLDER}/train/labels", exist_ok=True)
 
 # Load COCO JSON
 with open(COCO_JSON, "r") as f:
@@ -47,12 +47,12 @@ for img in data["images"]:
 
     # Move image to training folder
     src_path = os.path.join(DATASET_FOLDER, image_name)
-    dst_path = os.path.join(OUTPUT_FOLDER, "images/train", image_name)
+    dst_path = os.path.join(OUTPUT_FOLDER, "train/images", image_name)
     if os.path.exists(src_path):
         shutil.copy(src_path, dst_path)
 
     # Write label file
-    with open(os.path.join(OUTPUT_FOLDER, "labels/train", label_name), "w") as f:
+    with open(os.path.join(OUTPUT_FOLDER, "train/labels", label_name), "w") as f:
         f.write("\n".join(image_annotations[img["id"]]))
 
 print("✅ Conversion complete! YOLO annotations are in 'training/labels/train' and images are in 'training/images/train'.")

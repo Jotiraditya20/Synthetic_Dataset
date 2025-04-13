@@ -23,8 +23,8 @@
         {"id": 1, "name": "image", "supercategory": "document"},
         {"id": 0, "name": "graph", "supercategory": "document"},
         {"id": 2, "name": "text", "supercategory": "document"},
-        {"id": 3, "name": "x_axis", "supercategory": "graph"},
-        {"id": 4, "name": "y_axis", "supercategory": "graph"},
+        //{"id": 3, "name": "x_axis", "supercategory": "graph"},
+        //{"id": 4, "name": "y_axis", "supercategory": "graph"},
     ],
     "images": [],
     "annotations": []
@@ -34,7 +34,7 @@
     "max_row" : 700,
     
     //Weights of picture and Text
-    "weights": [60, 40],
+    "weights": [60,30],
     //Fonts possible for the Page
     "Fonts" : ["times.ttf","arial.ttf", "georgia.ttf", "calibri.ttf", "verdana.ttf", "tahoma.ttf"],
     "min_font_size" : 14,
@@ -48,7 +48,7 @@
     "min_pic_width" : 300,
     "max_pic_width" : 600,
     "pic_offset": 1,
-    "pic_weights": [30, 40],
+    "pic_weights": [30, 30],
     //TEXT size min reduction max reduction Min has to be greater than max
     "min_hieght_reduce" : 0,
     "max_hieght_reduce" : 0,
@@ -70,4 +70,6 @@
     //Page No
     "page_number_position": "right",
     "x_positioning" : 100,
+    "element_spacing": 15,
+    "min_element_height": 50
 }

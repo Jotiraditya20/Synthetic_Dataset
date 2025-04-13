@@ -5,8 +5,8 @@ import matplotlib.patches as patches
 from PIL import Image
 
 # Load COCO JSON file
-coco_path = "dataset/annotations.json"  # Change this to your COCO file path
-image_dir = "dataset"  # Change this to your image folder
+coco_path = "dataset1/annotations.json"  # Change this to your COCO file path
+image_dir = "dataset1"  # Change this to your image folder
 
 with open(coco_path, "r") as f:
     coco_data = json.load(f)
@@ -43,4 +43,4 @@ def visualize_annotations(image_id):
     plt.show()
 
 # Example: Visualize annotations for image_id = 0
-visualize_annotations(image_id=0)  # Change this to any valid image ID
+visualize_annotations(image_id = 0)  # Change this to any valid image ID

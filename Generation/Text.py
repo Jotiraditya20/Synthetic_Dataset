@@ -113,10 +113,9 @@ def generate_text_image(text, image_size, font_path="times.ttf", font_size=14, b
     return image
 
 # Generate multiple text images
-def generate_text_images(num_images, image_sizes, font="times.ttf", size=14, bold=False):
+def generate_text_images(num_images, image_sizes, font="times.ttf", size=14, bold=False, text=None):
     global call_count
-    call_count += 1  # Increment call count for unique filenames
-
+    call_count += 1
     base_dir = "Generation"
     text_dir = os.path.join(base_dir, "text")
     os.makedirs(text_dir, exist_ok=True)
@@ -128,17 +127,20 @@ def generate_text_images(num_images, image_sizes, font="times.ttf", size=14, bol
 
     for i in range(num_images):
         img_size = image_sizes[i % len(image_sizes)]
-        num_words = random.randint(800, 1200)
-        text = " ".join(random.choices(words, k=num_words))
+        
+        # Use provided text or generate random
+        if text:
+            current_text = text
+        else:
+            num_words = random.randint(800, 1200)
+            current_text = " ".join(random.choices(words, k=num_words))
 
-        img = generate_text_image(text, img_size, font, size, bold)
-
-        save_path = os.path.join(text_dir, f"{call_count}_{i+1}.jpg")  # Modified filename format
+        img = generate_text_image(current_text, img_size, font, size, bold)
+        save_path = os.path.join(text_dir, f"{call_count}_{i+1}.jpg")
         img.save(save_path)
         image_paths.append(save_path)
 
     return image_paths
-
 # Example usage
 #image_sizes = [[500, 30], [391, 271], [380, 380], [400, 350], [600, 250], [600, 350]]
 #image_paths = generate_text_images(6, image_sizes, bold=True)

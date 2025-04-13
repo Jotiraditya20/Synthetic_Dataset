@@ -4,7 +4,7 @@ import json
 from PIL import Image, ImageDraw, ImageFont
 from Text import generate_text_images
 from Image import get_random_images
-from Graph import generate_graphs
+from Graph1 import generate_graphs
 import json5
 
 #Using for id in coco
@@ -19,7 +19,7 @@ def load_config(config_path):
 config = load_config("./Generation/dataset3_config.json5")
 
 # Paths
-BASE_DIR = "dataset"
+BASE_DIR = "dataset1"
 os.makedirs(BASE_DIR, exist_ok=True)
 
 # Research paper page size
@@ -160,33 +160,42 @@ def generate_research_page_N_columns(page_id, n = config["N"]):
                     pic_type = random.choices(['image', 'graph'], weights=config["pic_weights"])[0]
                     if pic_type == 'image':
                         element_type = 1
-                        image_path = get_random_images(1, [(pic_width, pic_height)], "Generation/science_images",
-                                                "Generation/non_science_images")[0]    
+                        image_path = get_random_images(num_images=1, image_sizes=[(pic_width, pic_height)], science_folder="Generation/science_images",
+                                                non_science_folder="Generation/non_science_images")[0]
+
+                        caption_size = 20    
                     else:
                         element_type = 0
                         out = generate_graphs(1, [(pic_width, pic_height)])
-                        image_path, selected_type = out[0][0], out[1]
+                        image_path = out[0] #selected_graph
                         #print(selected_type)
+                        caption_size = 25
+                    
                     elements.append({
                     "type": element_type,
                     "path": image_path,
-                    "bbox": (x_pos, y_pos, pic_width, pic_height)
+                    "bbox": (x_pos, y_pos, pic_width, pic_height - caption_size)
                     })
                     #Adding Axis
-                    if element_type == 0 and selected_type != "pie":
+                    if element_type == 0: #and selected_type != "pie":
                         graph_x, graph_y = x_pos, y_pos
-                        y_axis_bbox = (graph_x, graph_y, int(0.15 * pic_width), pic_height)
+                        y_axis_bbox = (graph_x, graph_y, int(0.15 * pic_width), pic_height-caption_size)
                         elements.append({
-                        "type": 4,  # category_id for Y-axis
+                        "type": 3,  # category_id for Y-axis
                         "path": None,  # you can optionally create a cropped sub-image here
                         "bbox": y_axis_bbox
                         })
-                        x_axis_bbox = (graph_x, graph_y + int(0.85 * pic_height), pic_width, int(0.15 * pic_height))
+                        x_axis_bbox = (graph_x, graph_y + int(0.85 * pic_height) - caption_size, pic_width, int(0.15 * pic_height))
                         elements.append({
                         "type": 3,  # category_id for X-axis
                         "path": None,  # optionally cropped version
                         "bbox": x_axis_bbox
                         })
+                    elements.append({
+                        "type": 2,
+                        "path": None,
+                        "bbox": (x_pos, y_pos + pic_height - caption_size, pic_width, caption_size)
+                    })
             elif chosen_type == "text": #Text selected
                 element_type = 2
                 #Calculation of Text boxe sizes
@@ -294,4 +303,4 @@ def generate_dataset(num_pages):
     
     print(f"Dataset generated with {num_pages} pages. COCO annotations saved to {coco_path}.")
 
-generate_dataset(10000)
+generate_dataset(5000)
