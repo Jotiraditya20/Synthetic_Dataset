@@ -4,9 +4,9 @@ import os
 # Paths
 #image_path = "atraining/valid/images/3_png.rf.890cb57e2af214728fba250092441eb1.jpg"
 #label_path = "atraining/valid/labels/3_png.rf.890cb57e2af214728fba250092441eb1.txt"
-class_names = ['graph', 'image', 'text']
-image_path = "atraining/train/images/page_1.jpg"
-label_path = "atraining/train/labels/page_1.txt"
+class_names = ['image', 'text']
+image_path = r"C:\Users\jotir\Downloads\train-2\images\3.jpg"
+label_path = r"C:\Users\jotir\Downloads\train-2\labels\3.txt"
 
 # Load image
 img = cv2.imread(image_path)

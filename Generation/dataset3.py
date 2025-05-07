@@ -88,9 +88,6 @@ def apply_digital_artifacts(page, page_id):
 
 # Loading json file
 
-
-
-
 def load_config(config_path):
     with open(config_path, "r") as f:
         config = json5.load(f)  # json5 allows comments
@@ -241,7 +238,7 @@ def generate_research_page_N_columns(page_id, n=config["N"]):
                     if pic_type == 'image':
                         element_type = 1
                         image_path = get_random_images(num_images=1, image_sizes=[(pic_width, pic_height)],
-                                                       science_folder="Generation/science_images",
+                                                       science_folder="generated_images",
                                                        non_science_folder="Generation/non_science_images")[0]
                         caption_size = 20
                     else:
@@ -358,4 +355,4 @@ def generate_dataset(num_pages):
         json.dump(coco_data, f, indent=4)
     print(f"Dataset generated with {num_pages} pages. COCO annotations saved to {coco_path}.")
 
-generate_dataset(5000)
+generate_dataset(10)

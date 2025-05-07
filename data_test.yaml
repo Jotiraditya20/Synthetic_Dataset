@@ -1,0 +1,7 @@
+path: C:/Users/jotir/Downloads/train-2 
+test: images           
+train: images
+val: images   
+names:
+  0: image
+  1: text

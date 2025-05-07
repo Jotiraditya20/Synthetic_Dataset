@@ -5,7 +5,7 @@ import shutil
 # Configuration
 COCO_JSON = "dataset/annotations.json"
 DATASET_FOLDER = "dataset"
-OUTPUT_FOLDER = "training"  # Changed from 'atraining' to match print statement
+OUTPUT_FOLDER = "atraining"  
 
 # Create output folders
 os.makedirs(f"{OUTPUT_FOLDER}/images/train", exist_ok=True)
